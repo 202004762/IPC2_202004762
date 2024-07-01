@@ -1,0 +1,54 @@
+digraph G {
+layout = dot;
+labelloc = "t";
+edge [weigth = 1000];
+rankdir = LR;
+	subgraph artistas {
+	rankdir = LR;
+		"WOS"[fillcolor = beige style = "filled"];
+			subgraph "albumWOS"{
+			rankdir = TB;			rank=same;
+				"WOS"->"MORFEO"
+				"MORFEO"[fillcolor = aquamarine style = "filled"];
+					subgraph "albumMORFEO"{
+					rankdir = LR;
+						"MORFEO"->"MORFEO"
+							"MORFEO"[fillcolor = deepskyblue style = "filled"];
+					}
+				"ARRANCARMELO"[fillcolor = aquamarine style = "filled"];
+					subgraph "albumARRANCARMELO"{
+					rankdir = LR;
+						"ARRANCARMELO"->"ARRANCARMELO"
+							"ARRANCARMELO"[fillcolor = deepskyblue style = "filled"];
+					}
+			}
+		"Dj snake, Bipolar Sunshine "[fillcolor = beige style = "filled"];
+			subgraph "albumDj snake, Bipolar Sunshine "{
+			rankdir = TB;			rank=same;
+				"Dj snake, Bipolar Sunshine "->"Encore"
+				"Encore"[fillcolor = aquamarine style = "filled"];
+					subgraph "albumEncore"{
+					rankdir = LR;
+						"Encore"->"MIDDLE"
+							"MIDDLE"[fillcolor = deepskyblue style = "filled"];
+					}
+			}
+	}
+"WOS"->"Dj snake, Bipolar Sunshine ";
+"MORFEO"->"ARRANCARMELO";
+"MORFEO"->"NoneR000"[style = dashed];
+"ARRANCARMELO"->"NoneR01"[style = dashed];
+"ARRANCARMELO"->"NoneR010"[style = dashed];
+"Dj snake, Bipolar Sunshine "->"NoneR2"[style = dashed];
+"Encore"->"NoneR10"[style = dashed];
+"MIDDLE"->"NoneR100"[style = dashed];
+"Dj snake, Bipolar Sunshine "->"WOS";
+"Encore"->"NoneL01"[style = dashed];
+"MIDDLE"->"NoneL001"[style = dashed];
+"WOS"->"NoneL0"[style = dashed];
+"ARRANCARMELO"->"MORFEO;"
+"ARRANCARMELO"->"NoneL010"[style = dashed];
+"MORFEO"->"NoneL00"[style = dashed];
+"MORFEO"->"NoneL000"[style = dashed];
+
+}

@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding="UTF-8"?>
+<ListasReproduccion>
+	<Lista nombre = "Yair">
+		<cancion nombre = "MORFEO"
+			<artista>WOS</artista>
+			<album>MORFEO</album>
+			<vecesReproducida>0</vecesReproducida>
+			<imagen>musica\MORFEO.jpg</imagen>
+			<ruta>musica\WOS - MORFEO (Audio).mp3</ruta>
+		</cancion>
+		<cancion nombre = "MIDDLE"
+			<artista>Dj snake, Bipolar Sunshine </artista>
+			<album>Encore</album>
+			<vecesReproducida>0</vecesReproducida>
+			<imagen>musica\MIDDLE .jpg</imagen>
+			<ruta>musica\Dj snake - Middle.mp3</ruta>
+		</cancion>
+	</Lista>
+</ListasReproduccion>

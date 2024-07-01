@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'index/css/b4.css' %}">
+<script src="{% static 'index/js/b4.js' %}"></script>
+<!-- Botón para descargar XML -->
+<a href="{% url 'descargar_xml_clientes' %}" class="btn btn-info mt-2">Descargar XML</a>
+<div id="AgregarPersonalModal" class="modal" style="overflow: scroll;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title text-dark">Agregar nuevo</h5>
+            </div>
+            <div class="modal-body bg-dark text-white">
+                <form method="POST" action="{% url 'AddCliente' %}" enctype="multipart/form-data">{% csrf_token %}
+                    {% for field in form_personal %}
+                    <p>{{field.label}} <br>
+                        {{field|add_class:"form-control text-dark"}}</p>
+                    {% for error in field.errors %}
+                    <p class="alarma">{{error}}</p>
+                    {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                    <p class="alarma">{{error}}</p>
+                    {% endfor %}
+            </div>
+            <div class="modal-footer bg-dark">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                    Cancelar
+                </button>
+                <button type="submit" class="btn btn-success">
+                    Agregar
+                </button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="EditarPersonalModal" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title text-dark">Editar</h5>
+            </div>
+            <div class="modal-body bg-dark text-white">
+                <form method="POST" action="{% url 'EditCliente' %}" enctype="multipart/form-data">{% csrf_token %}
+                    <input type="hidden" id="id_personal_editar" name="id_personal_editar">
+                    {% for field in form_editar %}
+                    <p> {{field.label}} <br>
+                        {{field|add_class:"form-control"}}</p>
+                    {% for error in field.errors %}
+                    <p class="alarma">{{error}}</p>
+                    {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                    <p class="alarma">{{error}}</p>
+                    {% endfor %}
+            </div>
+            <div class="modal-footer bg-dark text-white">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                    Volver
+                </button>
+                <button type="submit" class="btn btn-success">
+                    Aceptar
+                </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="EliminarPersonalModal" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title text-dark">Eliminar</h5>
+            </div>
+            <div class="modal-body bg-dark text-white">
+                <p class="labelmodal">¿Estás seguro?</p>
+                <form method="POST" action="{% url 'DeleteCliente' %}">{% csrf_token %}
+                    <input type="hidden" id="id_personal_eliminar" name="id_personal_eliminar">
+            </div>
+            <div class="modal-footer bg-dark text-white">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                    Volver
+                </button>
+                <button type="submit" class="btn btn-success">
+                    Aceptar
+                </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h3 class="text-center">Clientes <i class="fas fa-users"></i></h3>
+        <div class="col-md-3 pb-2">
+            <a href="#AgregarPersonalModal" data-toggle="modal" data-dismiss="modal">
+                <button type="button" class="btn btn-success">
+                    Agregar Cliente
+                    <i class="fas fa-plus-circle"></i>
+                </button>
+            </a>
+        </div>
+        <div class="card card-body" style="overflow:scroll">
+            <table class="table table-hover table-primary" id="myTable">
+                <thead>
+                    <tr>
+                        <th># ID</th>
+                        <th>Nit</th>
+                        <th>Nombre</th>
+                        <th>Telefono</th>
+                        <th>Direccion</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody class="text-dark">   
+                    {% for i in clientes %}
+                    <tr>
+                        <td>{{i.id}}</td>
+                        <td>{{i.nit}}</td>
+                        <td>{{i.nombre}}</td>
+                        <td>{{i.telefono}}</td>
+                        <td>{{i.direccion}}</td>
+                        <td>
+                            <button onclick="editarPersonal('{{i.id}}', '{{i.nit}}', '{{i.nombre}}', '{{i.telefono}}', '{{i.direccion}}',)" class="btn btn-dark-outline btn-sm" data-toggle="modal"
+                                href="#EditarPersonalModal"><img src="{% static 'index/img/editar.png' %}" alt="Error"
+                                    width="30"></button>
+                            <button onclick="eliminarPersonal('{{i.id}}')" class="btn btn-dark-outline btn-sm"
+                                data-toggle="modal" href="#EliminarPersonalModal"><img
+                                    src="{% static 'index/img/delete.png' %}" alt="Error" width="30"></button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Agrega este formulario al final del contenido de clientes.html -->
+<form method="POST" action="{% url 'seleccionar_cliente' %}" id="seleccionarClienteForm">
+    {% csrf_token %}
+    <label for="id_cliente">Seleccionar Cliente:</label>
+    <select name="cliente_id" id="id_cliente" class="form-control">
+        {% for cliente in clientes %}
+            <option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit" class="btn btn-success mt-2">Seleccionar Cliente</button>
+</form>
+
+
+
+{% if messages %}
+    {% for message in messages %}
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error...',
+            text: "{{message}}",
+        })
+    </script>
+    {% endfor %}
+{% endif %}
+{% endblock %}

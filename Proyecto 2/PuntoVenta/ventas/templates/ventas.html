@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h3 class="text-center">Facturas de Ventas</h3>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
+
+<table class="table" id="facturasTable">
+    <thead>
+        <tr>
+            <th>ID Factura</th>
+            <th>Cliente</th>
+            <th>Fecha</th>
+            <th>Total</th>
+            <th>Detalles</th>
+            <th>Eliminar</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for factura in facturas %}
+        <tr>
+            <td>{{ factura.id }}</td>
+            <td>{{ factura.cliente.nombre }}</td>
+            <td>{{ factura.fecha }}</td>
+            <td>{{ factura.total }}</td>
+            <td><a href="{% url 'detalle_factura' factura.id %}">Ver detalles</a></td>
+            <td><a href="{% url 'eliminar_factura' factura.id %}" class="btn btn-danger">Eliminar</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#facturasTable').DataTable({
+            "paging": true,
+            "ordering": true,
+            "searching": true,
+            "info": true
+        });
+    });
+</script>
+
+
+{% endblock %}
+

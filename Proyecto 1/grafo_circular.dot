@@ -1,0 +1,19 @@
+
+digraph G{
+    edge [weigth = 1000];
+    subgraph listas{
+        rankdir = LR;
+		"Yair"[color = beige style = "filled"];
+	}
+	subgraph lista0{
+		rank = same;
+		"MORFEO"[color = coral style = "filled"]
+		"MIDDLE"[color = coral style = "filled"]
+	}
+"Yair"->"NoneL->"
+"Yair"->"MORFEO""MORFEO"->"MIDDLE"
+"MIDDLE"->"MORFEO"
+"Yair"->"<-NoneL"
+"MIDDLE"->"MORFEO"
+"MORFEO"->"MIDDLE"
+}
